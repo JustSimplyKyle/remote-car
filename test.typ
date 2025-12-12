@@ -259,7 +259,7 @@
 
 === 線拉式軌道系統
 #grid(
-  columns: (1fr, 1fr),
+  columns: (1fr, 1fr, 1fr),
   align: horizon + center,
   inset: 1em,
 )[
@@ -269,12 +269,28 @@
   ) <inspiration>
 ][
   #figure(
-    rotate(-90deg, image("linear-trailing-system.png", width: 8em), reflow: true),
-    caption: [初版設計]
-  ) <linear-trailing-system>
+    block(
+      inset: (top: -10pt, bottom: -20pt, right: -30pt, left: -40pt),
+      clip: true,
+      height: 8em,
+      image("linear-trailing-system.png", height: 100%)
+    ),
+    caption: [機身打樣前視圖]
+  ) <linear-trailing-system-base>
+][
+  #figure(
+    block(
+      inset: (top: -20pt, bottom: -40pt, right: -67pt, left: -60pt),
+      clip: true,
+      height: 8em,
+      image("linear-trailing-system-claw.png")
+    ),
+    caption: [夾子打樣式樣]
+  ) <linear-trailing-system-claw>
+  
 ]
 
-此設計為最一開始想到的最簡可行產品(MVC)，此設計受 @inspiration 啟發，只花了我們不到一小時就組裝完成並且成功測試。由 @linear-trailing-system 可見軌道上的夾子*沒有*馬達驅動，我們設想單純利用*固定式*之夾子設計即可成功拿到球，但遇到以下問題：由於下降時是依靠重力，而非馬達，會受配重及摩擦力影響。
+此設計為最一開始想到的最簡可行產品(MVC)，此設計受 @inspiration 啟發，只花了我們不到一小時就組裝完成並且成功測試（見 @linear-trailing-system-base）。由 @linear-trailing-system-claw 可見，夾子*沒有*馬達驅動，我們設想單純利用*固定式*之夾子設計即可成功拿到球，但遇到以下問題：由於下降時是依靠重力，而非馬達，會受配重及摩擦力影響。
 
 #show table: it => block(stroke: 1pt, radius: 1em, clip: true, it)
 
