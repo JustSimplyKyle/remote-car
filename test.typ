@@ -31,8 +31,11 @@
 
 #set page(
   numbering: numbly("{1}", "第{1}頁/共{2}頁"),
-  flipped: horizontal
 )
+
+#set page(
+  paper: "presentation-16-9"
+) if horizontal
 
 #show "贰":"貳"
 #show "叁":"參"
@@ -211,7 +214,7 @@
  針對平面且無障礙物的地形（@terrain），我們決定採用兩輪驅動 + 一個萬向輪的三輪車組合，以減少結構複雜性（見 @blueprint）。
 
 #grid(
-  rows: 2,
+  rows: 4,
   columns: 3,
   gutter: 1em,
 )[
@@ -239,12 +242,7 @@
     image("mission-5.png"),
     caption: [任務五]
   ) #label("mission-5")
-]
-
-#grid(
-  columns: 2,
-  inset: 2em,
-)[
+][
   #figure(
     image("terrain.png"),
     caption: []
@@ -266,18 +264,17 @@
   inset: 1em,
 )[
   #figure(
-    image("blueprint.png", height: 8em),
-    caption: []
+    image("vr1-inspiration.png", height: 8em),
+    caption: [深降式吊車]
   ) <inspiration>
 ][
   #figure(
     rotate(-90deg, image("linear-trailing-system.png", width: 8em), reflow: true),
-    caption: []
+    caption: [初版設計]
   ) <linear-trailing-system>
 ]
-  此設計為最一開始想到的最簡可行產品(MVC)。只花了我們不到一小時就組裝完成並且成功測試。
-  由 @linear-trailing-system 可見軌道上的夾子*沒有*馬達驅動，我們設想單純利用*固定式*之夾子設計即可成功拿到球，但遇到以下問題：
-  - 由於下降時是依靠重力，而非馬達，會受配重及摩擦力影響。
+
+此設計為最一開始想到的最簡可行產品(MVC)，此設計受 @inspiration 啟發，只花了我們不到一小時就組裝完成並且成功測試。由 @linear-trailing-system 可見軌道上的夾子*沒有*馬達驅動，我們設想單純利用*固定式*之夾子設計即可成功拿到球，但遇到以下問題：由於下降時是依靠重力，而非馬達，會受配重及摩擦力影響。
 
 #show table: it => block(stroke: 1pt, radius: 1em, clip: true, it)
 
