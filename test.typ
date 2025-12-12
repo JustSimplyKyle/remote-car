@@ -10,6 +10,11 @@
 #let formal = false
 #let horizontal = false
 
+#if sys.inputs.pairs().len() == 2 {
+  formal = if sys.inputs.formal == "true" { true } else { false };
+  horizontal = if sys.inputs.horizontal == "true" { true } else { false };
+}
+
 #set text(
   lang: "zh",
   region: "tw",
@@ -34,7 +39,7 @@
 )
 
 #set page(
-  paper: "presentation-16-9"
+  paper: "presentation-4-3"
 ) if horizontal
 
 #show "贰":"貳"
@@ -203,6 +208,10 @@
     },
   )
 ]
+
+#if horizontal {
+  pagebreak()
+}
 
 
 #let ball = "任務五"
