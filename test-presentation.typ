@@ -136,7 +136,6 @@
   navigation: "none",
   config-info(
     title: [「科技實作（一）」專題課程期中報告],
-    // subtitle: [Subtitle],
     author: [薛詠謙、吳彥廷],
     date: datetime.today(),
     institution: [內壢高中],
@@ -240,7 +239,7 @@
 + 萬向輪\*1
 + 線繩與滑輪\*1
 + 馬達 2.4Ghz 無線控制板（接收與發射各\*1）
-+ esp32
++ esp32#pin(6)
 + TT #pin(4)馬達#pin(5)\*4
 
 #let pinit-highlight-equation-from(height: 2em, pos: bottom, fill: rgb(0, 180, 255), highlight-pins, point-pin, body) = {
@@ -260,8 +259,10 @@
   )
 }
 
+#pinit-point-to(6, pin-dy: -.4em, offset-dy: -.4em, body-dy: -.4em)[用於#pin(7)客製化#pin(8)遙控器]
 
 #pinit-highlight(1,2)
+#pinit-highlight(7,8)
 #pinit-highlight-equation-from((1, 2), (1, 2), height: 8em, pos: top, fill: green.lighten(10%))[
   #box(
     width: 12em,
@@ -444,7 +445,7 @@
       stroke: 1pt,
       align: left,
       columns: (1fr, 1fr),
-      inset: 0.5em,
+      inset: 1em,
       fill: (x, y) => {
         if (x,y) == (0,0) {
           green
@@ -492,16 +493,81 @@
 
 此設計本質上就是*簡易*、*不易出錯*，但也#highlight(fill: aqua.lighten(50%))[不易擴充]。我們希望能夠達成更多的任務，因此決定從頭再來，重新設計一個更萬用的機械臂。
 
-== 齒輪驅動機械臂
+== 嘗試：齒輪驅動機械臂
 
-#lorem(30)
+#colorbox(
+  color: (fill: luma(200)),
+  stroke: 0pt,
+)[
+  #set align(center)
+  #set text(fill: luma(50))
+  線拉式軌道系統的重力下降問題困擾著我們。於是我們想：\
+  『既然靠重力會卡住，那不如直接用馬達和齒輪硬轉下去吧？』
+]
 
-== 線拉式機械臂
+#grid(
+  columns: (1fr, 1.5fr),
+  gutter: 2em,
+  align: horizon,
+  [
+    #figure(
+      rect(width: 100%, height: 8em, fill: orange.lighten(90%), radius: 5pt)[
+        #align(center+horizon)[齒輪直驅結構]
+      ],
+      caption: [全齒輪驅動設計]
+    )
+  ],
+  [
+    === 設計特點 <nooutline>
+    利用馬達直接帶動齒輪，強制帶動機械臂上下移動。
 
-#lorem(30)
+    === 解決問題 <nooutline>
+    提供穩定的下壓力量，從根本上解決了「下不來」的問題。,
+    === 衍生問題 <nooutline>
+    #list(marker: ([\u{26A0}]),
+      [*速度過快*：齒輪比導致移動太靈敏，難以精準對齊球體。],
+      [*控制僵硬*：缺乏緩衝，操作容錯率極低。]
+    )
+  ]
+)
 
-// wtf is this bug??
-// = <nooutline>
+== 最終解：線拉式機械臂
+
+#colorbox(
+  color: (fill: blue.lighten(80%)),
+  stroke: 0pt,
+)[
+  #set align(center)
+  #set text(fill: blue.darken(30%))
+  我們意識到，雖然齒輪有力，但我們第一代線的精確控制也好用。\
+  於是決定：『保留線拉的精準度，融合齒輪的穩定性。』
+]
+
+#grid(
+  columns: (1fr, 1.5fr),
+  gutter: 2em,
+  align: horizon,
+  [
+    // 左側放示意圖
+    #figure(
+      rect(width: 100%, height: 8em, fill: teal.lighten(80%), radius: 5pt)[
+        #align(center+horizon)[線拉 +夾爪]
+      ],
+      caption: [混合式驅動設計]
+    )
+  ],
+  [
+    === 融合設計
+    - 升降機構：回歸馬達拉線 -> 取其\ *精準*與細膩控制。
+    - 夾持機構：保留齒輪驅動 -> 取其\ *穩定*與抓取力度。
+
+    #v(1em)
+    #block(stroke: (left: 4pt + teal), fill: teal.lighten(80%), inset: 1em)[
+      此設計融合了線拉式機械臂的精準性還有齒輪驅動的穩定性，
+      形成一個既易控制，也易於擴充的理想形態。
+    ]
+  ]
+)
 
 = 目前進度
 == 目前進度
