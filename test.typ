@@ -10,7 +10,7 @@
 #import colorful-boxes: *;
 
 #let formal = false
-#let horizontal = true
+#let horizontal = false
 
 #if sys.inputs.pairs().len() == 2 {
   formal = if sys.inputs.formal == "true" { true } else { false };

@@ -4,6 +4,7 @@
 #import "@preview/percencode:0.1.0": percent-decode
 #import "@preview/fletcher:0.5.8" as fletcher: diagram, edge, node
 #import "@preview/touying:0.6.1": *
+#import "@preview/pinit:0.2.2": *
 #import themes.metropolis: *
 // #import "@preview/touying-unistra-pristine:1.4.2": *
 #import fletcher.shapes;
@@ -134,7 +135,7 @@
   footer: self => self.info.title,
   navigation: "none",
   config-info(
-    title: [遙控車專題製作中期報告],
+    title: [「科技實作（一）」專題課程期中報告],
     // subtitle: [Subtitle],
     author: [薛詠謙、吳彥廷],
     date: datetime.today(),
@@ -143,6 +144,7 @@
   config-page(
     margin: (x: 4em),
   ),
+  config-methods(cover: utils.semi-transparent-cover.with(alpha: 85%)),
   config-common(slide-level: 2)
 )
 
@@ -173,76 +175,12 @@
   ) 
 ]
 
-= 專案管理
-== 甘特圖 <nooutline>
-#figure(
-  caption: figure.caption(position: top)[
-    #highlight(
-      fill: luma(200),
-    )[Nxx = Nov. xx, Dxx = Dec.xx]],
-  kind: table,
-)[
-  #timeliney.timeline(
-    show-grid: true,
-    {
-      import timeliney: *
-
-      headerline(group(([保麗龍打樣及測試], 4)), group(([木板設計、組裝與除錯], 4)))
-      headerline(
-        group(..("N14", "N21", "N26", "N28", "D03", "D05", "D12", "D19")),
-        // group(range(13,20).map(n => strong("10/" + str(n)))),
-      )
-
-      taskgroup(
-        title: [*底版設計*],
-        style: (stroke: 5pt + black),
-        {
-          task(
-            "打樣的切割與組裝",
-            (from: 0, to: 1),
-            style: (stroke: 2pt + gray),
-          )
-          task(
-            "無線控制模組",
-            (from: 1, to: 2),
-            style: (stroke: 2pt + gray),
-          )
-        },
-      )
-
-      taskgroup(
-        title: [*機械臂與夾子設計*],
-        style: (stroke: 5pt + blue),
-        {
-          task("線拉式軌道系統", (.5, 1), style: (stroke: 2pt + aqua))
-          task("齒輪驅動機械臂", (1, 3), style: (stroke: 2pt + aqua))
-          task("線拉式機械臂", (3, 4), style: (stroke: 2pt + aqua))
-        },
-      )
-
-      taskgroup(
-        // title: [*成果展現*],
-        style: (stroke: 5pt + red),
-        {
-          task("rhino 初稿", (4, 5), style: (stroke: 2pt + maroon))
-          task("木板及輪胎組裝", (5, 6), style: (stroke: 2pt + maroon))
-          task("機械臂組裝", (6, 7), style: (stroke: 2pt + maroon))
-        },
-      )
-    },
-  )
-]
-
-#if horizontal {
-  pagebreak()
-}
-
 
 #let ball = "任務五"
 #let pyrmaid = "任務一"
 
 = 得分策略
-== 策略
+== 策略 <nooutline>
 
 #ball (@mission-5) 佔分比重最大。因此我們的策略是以『優先完成任務五』為核心，需確保#highlight(fill: blue.lighten(75%))[機械手臂]具備足夠的*垂直行程*與*穩定性*。次要目標鎖定任務一與二。
 
@@ -294,6 +232,153 @@
   ) <three-wheel-blueprint>
 ]
 
+= 材料與結構說明
+== 材料
+
++ 300x400mm 之#pin(1)木板#pin(2)\*1
++ 輪子\*2
++ 萬向輪\*1
++ 線繩與滑輪\*1
++ 馬達 2.4Ghz 無線控制板（接收與發射各\*1）
++ esp32
++ TT #pin(4)馬達#pin(5)\*4
+
+#let pinit-highlight-equation-from(height: 2em, pos: bottom, fill: rgb(0, 180, 255), highlight-pins, point-pin, body) = {
+  pinit-highlight(..highlight-pins,fill: rgb(..fill.components().slice(0, -1), 50))
+  pinit-point-from(
+    fill: fill, pin-dx: 0em, pin-dy: if pos == bottom { 0.5em } else { -.9em }, body-dx: 0pt, body-dy: if pos == bottom { -6.2em } else { -0.7em }, offset-dx: 0em, offset-dy: if pos == bottom { 0.8em + height } else { -0.6em - height },
+    point-pin,
+    rect(
+      inset: if pos == bottom { 0.35em } else { (x: 0.5em) },
+      stroke: 0em,
+      // stroke: (bottom: if pos == bottom { 0.12em + fill }, top: if pos != bottom { 0.12em + fill }),
+      {
+        // set text(fill: fill)
+        body
+      }
+    )
+  )
+}
+
+
+#pinit-highlight(1,2)
+#pinit-highlight-equation-from((1, 2), (1, 2), height: 8em, pos: top, fill: green.lighten(10%))[
+  #box(
+    width: 12em,
+    stickybox(fill: green.lighten(70%))[
+      === 用途 <nooutline>
+      + 底版
+      + 齒輪（夾子）
+      + 機械臂
+    ]
+  )
+]
+#pinit-highlight-equation-from((4, 5), (4, 5), height: 5em, pos: bottom, fill: yellow.darken(20%))[
+  #box(
+    width: 12em,
+    stickybox(fill: yellow.lighten(70%))[
+      + 兩顆用於後輪驅動
+      + 一顆用於機械臂抬升
+      + 一顆用於夾子開關
+    ]
+  )
+]
+
+== 機構說明
+
+#grid(
+  columns: (1fr, 1fr),
+  rows: (1fr, 1pt, 1fr),
+  inset: 1em,
+  [
+    #figure(
+      image("clamp-blueprint.png"),
+      caption: [夾子之 Rhino 設計稿]
+    ) <clamp>
+  ],
+  [
+    如 @clamp 所示，夾具由馬達驅動單側，並藉由*齒輪*傳動，使兩側呈對稱開合以夾取物體。
+  ],
+  grid.cell(
+    colspan: 2,
+    [
+      #line(length: 100%)
+      #pause
+    ]
+  ),
+  [
+    #figure(
+      image("puller-blueprint.png"),
+      caption: [機械臂之 Rhino 設計稿]
+    ) <arm-blueprint>
+  ],
+  [
+    如 @arm-blueprint 所示，機械臂的升降機構，是利用*對側*之馬達進行牽引帶動。
+  ],
+)
+
+= 專案管理
+== 甘特圖 <nooutline>
+#figure(
+  caption: figure.caption(position: top)[
+    #highlight(
+      fill: luma(200),
+    )[Nxx = Nov. xx, Dxx = Dec.xx]],
+  kind: table,
+)[
+  #set text(size: 0.9em)
+  #timeliney.timeline(
+    show-grid: true,
+    {
+      import timeliney: *
+
+      headerline(group(([保麗龍打樣及測試], 4)), group(([木板設計、組裝與除錯], 4)))
+      headerline(
+        group(..("N14", "N21", "N26", "N28", "D03", "D05", "D12", "D19")),
+        // group(range(13,20).map(n => strong("10/" + str(n)))),
+      )
+
+      taskgroup(
+        title: [*底版設計*],
+        style: (stroke: 5pt + black),
+        {
+          task(
+            "打樣的切割與組裝",
+            (from: 0, to: 1),
+            style: (stroke: 2pt + gray),
+          )
+          task(
+            "無線控制模組",
+            (from: 1, to: 2),
+            style: (stroke: 2pt + gray),
+          )
+        },
+      )
+
+      taskgroup(
+        title: [*機械臂與夾子設計*],
+        style: (stroke: 5pt + blue),
+        {
+          task("線拉式軌道系統", (.5, 1), style: (stroke: 2pt + aqua))
+          task("齒輪驅動機械臂", (1, 3), style: (stroke: 2pt + aqua))
+          task("線拉式機械臂", (3, 4), style: (stroke: 2pt + aqua))
+        },
+      )
+
+      taskgroup(
+        // title: [*成果展現*],
+        style: (stroke: 5pt + red),
+        {
+          task("rhino 初稿", (4, 5), style: (stroke: 2pt + maroon))
+          task("木板及輪胎組裝", (5, 6), style: (stroke: 2pt + maroon))
+          task("機械臂組裝", (6, 8), style: (stroke: 2pt + maroon))
+        },
+      )
+    },
+  )
+]
+
+
 = 打樣作品及修改記錄
 == 線拉式軌道系統
 
@@ -333,7 +418,7 @@
 #show table: it => block(stroke: 1pt, radius: 1em, clip: true, it)
 
 #let title(string, body) = {
-  box(height: 8em, width: 100%)[
+  box(height: 6em, width: 100%)[
     #grid(
       // stroke: 1pt + red,
       columns: 1fr,
@@ -344,6 +429,8 @@
          === #string <nooutline>
       ]
     ][
+      #set text(size: 0.8em)
+      #set align(top)
       #body
     ]
   ]
@@ -357,7 +444,7 @@
       stroke: 1pt,
       align: left,
       columns: (1fr, 1fr),
-      inset: 1em,
+      inset: 0.5em,
       fill: (x, y) => {
         if (x,y) == (0,0) {
           green
@@ -405,11 +492,56 @@
 
 此設計本質上就是*簡易*、*不易出錯*，但也#highlight(fill: aqua.lighten(50%))[不易擴充]。我們希望能夠達成更多的任務，因此決定從頭再來，重新設計一個更萬用的機械臂。
 
-=== 齒輪驅動機械臂
+== 齒輪驅動機械臂
 
-=== 線拉式機械臂
+#lorem(30)
 
-= 設計發展 (含水平及垂直發展、精密描寫、三視圖說、色彩計畫等、完整陳述製作內容、方法 、表現形式、材質、數量、規格等，各發表階段之照片及提報文字介紹)
-= 作品與功能說明 (作品整體的使用說明/酷卡/說明卡)
-= 成品與細節照片
-= 資料來源
+== 線拉式機械臂
+
+#lorem(30)
+
+// wtf is this bug??
+// = <nooutline>
+
+= 目前進度
+== 目前進度
+#grid(
+  columns: (8fr, 2fr),
+  column-gutter: 5pt,
+  row-gutter: 5pt,
+)[
+  === 打樣(100%)
+  於 11/14 完成 MVC，在 11/28 已完成最終草稿測試。
+][
+  #set text(0.5em)
+  #figure(
+    image("blueprint.png"),
+    caption: [#link("https://touying-typ.github.io/docs/dynamic/cover")[測試影片]]
+  )
+  #pause
+][
+  === Rhino 設計稿(100%)
+  於 12/03 完成初設計，12/12 Debug 完成。
+][
+  #set text(0.5em)
+  #figure(
+    image("blueprint.png"),
+    caption: []
+  )
+  #pause
+][
+  === 雷切組裝(100%)
+  於 12/08 完成初步組裝，12/12 Debug 完成。
+][
+  #set text(0.5em)
+  #figure(
+    image("blueprint.png"),
+    caption: [#link("https://touying-typ.github.io/docs/dynamic/cover")[測試影片]]
+  )
+]
+= 所遇困難
+== fuck
+arst
+= 改進空間
+== fuck
+arst
