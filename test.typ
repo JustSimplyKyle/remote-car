@@ -3,12 +3,14 @@
 #import "@preview/colorful-boxes:1.4.3"
 #import "@preview/percencode:0.1.0": percent-decode
 #import "@preview/fletcher:0.5.8" as fletcher: diagram, edge, node
+#import "@preview/touying:0.6.1": *
+#import themes.dewdrop: *
 #import fletcher.shapes;
 
 #import colorful-boxes: *;
 
 #let formal = false
-#let horizontal = false
+#let horizontal = true
 
 #if sys.inputs.pairs().len() == 2 {
   formal = if sys.inputs.formal == "true" { true } else { false };
