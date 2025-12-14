@@ -259,10 +259,9 @@
   )
 }
 
-#pinit-point-to(6, pin-dy: -.4em, offset-dy: -.4em, body-dy: -.4em)[用於#pin(7)客製化#pin(8)遙控器]
+#pinit-point-to(6, pin-dy: -.4em, offset-dy: -.4em, body-dy: -.4em)[用於#highlight(fill: red.lighten(80%))[客製化]遙控器]
 
 #pinit-highlight(1,2)
-#pinit-highlight(7,8)
 #pinit-highlight-equation-from((1, 2), (1, 2), height: 8em, pos: top, fill: green.lighten(10%))[
   #box(
     width: 12em,
@@ -558,13 +557,13 @@
   ],
   [
     === 融合設計
-    - 升降機構：回歸馬達拉線 -> 取其\ *精準*與細膩控制。
-    - 夾持機構：保留齒輪驅動 -> 取其\ *穩定*與抓取力度。
+    - 升降機構：回歸馬達拉線 -> \ 取其*精準*與細膩控制。
+    - 夾持機構：保留齒輪驅動 -> \ 取其*穩定*與抓取力度。
 
     #v(1em)
     #block(stroke: (left: 4pt + teal), fill: teal.lighten(80%), inset: 1em)[
       此設計融合了線拉式機械臂的精準性還有齒輪驅動的穩定性，
-      形成一個既易控制，也易於擴充的理想形態。
+      形成一個既易控制，也易於擴充的形態。
     ]
   ]
 )
