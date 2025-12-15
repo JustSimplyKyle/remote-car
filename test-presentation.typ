@@ -300,15 +300,18 @@
     如 @clamp 所示，夾具由馬達驅動單側，並藉由*齒輪*傳動，使兩側呈對稱開合以夾取物體。
   ],
   grid.cell(
+    inset: 0em,
     colspan: 2,
-    [
-      #line(length: 100%)
-      #pause
-    ]
+    line(length: 100%)
   ),
   [
     #figure(
-      image("puller-blueprint.png"),
+      block(
+        inset: (top: -30pt, bottom: -20pt, right: -40pt, left: -30pt),
+        clip: true,
+        height: 100%,
+        image("arm-blueprint.png", height: 100%)
+      ),
       caption: [機械臂之 Rhino 設計稿]
     ) <arm-blueprint>
   ],
@@ -382,12 +385,15 @@
 = 打樣作品及修改記錄
 == 線拉式軌道系統
 
+#slide(repeat: 3)[
 #grid(
   columns: (1fr, 1fr, 1fr),
+  rows: 30%,
+  inset: (y: 1em),
   align: horizon + center,
 )[
   #figure(
-    image("vr1-inspiration.png", height: 8em),
+    image("vr1-inspiration.png"),
     caption: [深降式吊車]
   ) <inspiration>
 ][
@@ -395,7 +401,6 @@
     block(
       inset: (top: -10pt, bottom: -20pt, right: -30pt, left: -40pt),
       clip: true,
-      height: 8em,
       image("linear-trailing-system.png", height: 100%)
     ),
     caption: [機身打樣前視圖]
@@ -405,15 +410,41 @@
     block(
       inset: (top: -20pt, bottom: -40pt, right: -67pt, left: -60pt),
       clip: true,
-      height: 8em,
       image("linear-trailing-system-claw.png")
     ),
     caption: [夾子打樣式樣]
   ) <linear-trailing-system-claw>
   
 ]
+此設計為最一開始想到的最簡可行產品(MVC)，此設計受 @inspiration 啟發，只花了我們不到一小時就組裝完成並且成功測試。
 
-此設計為最一開始想到的最簡可行產品(MVC)，此設計受 @inspiration 啟發，只花了我們不到一小時就組裝完成並且成功測試（見 @linear-trailing-system-base）。由 @linear-trailing-system-claw 可見，夾子*沒有*馬達驅動，我們設想單純利用*固定式*之夾子設計即可成功拿到球，但遇到以下問題：由於下降時是依靠重力，而非馬達，會受配重及摩擦力影響。
+#grid(
+  columns: (1fr, 1pt, 1fr),
+  rows: (13em),
+  inset: .8em,
+  [
+    #set heading(numbering: none)
+    === 機臂上升機構設計 
+    如 @linear-trailing-system-base 所示，機械臂的升降機構，是利用*對側*之馬達進行牽引帶動。
+
+    #uncover("2-")[
+      === #text(fill: red.lighten(30%))[遇到的問題]
+      下降時依靠重力而非馬達，易受配重及摩擦力影響導致*卡頓*。
+    ]
+  ],
+  grid.cell(inset: 0pt)[
+    #line(angle: 90deg, length: 100%)
+  ],
+  uncover("3-")[
+    #show heading: set text(fill: aqua.darken(40%))
+    === 夾子機構設計 <nooutline>
+    由 @linear-trailing-system-claw 可見，夾子*沒有*馬達驅動。
+    - 單純利用*固定式*之夾子設計。
+    - 利用*凹進去*的結構設計使其能成功卸載。
+  ],
+)
+]
+
 
 #show table: it => block(stroke: 1pt, radius: 1em, clip: true, it)
 
@@ -490,6 +521,7 @@
   "線拉式軌道系統"
 )
 
+
 此設計本質上就是*簡易*、*不易出錯*，但也#highlight(fill: aqua.lighten(50%))[不易擴充]。我們希望能夠達成更多的任務，因此決定從頭再來，重新設計一個更萬用的機械臂。
 
 == 嘗試：齒輪驅動機械臂
@@ -556,11 +588,11 @@
     )
   ],
   [
-    === 融合設計
+    === 融合設計 <nooutline>
+    #v(.8em)
     - 升降機構：回歸馬達拉線 -> \ 取其*精準*與細膩控制。
     - 夾持機構：保留齒輪驅動 -> \ 取其*穩定*與抓取力度。
 
-    #v(1em)
     #block(stroke: (left: 4pt + teal), fill: teal.lighten(80%), inset: 1em)[
       此設計融合了線拉式機械臂的精準性還有齒輪驅動的穩定性，
       形成一個既易控制，也易於擴充的形態。
