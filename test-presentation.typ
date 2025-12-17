@@ -334,7 +334,7 @@
   inset: 1em,
   [
     #figure(
-      image("clamp-blueprint.png"),
+      image("claw.png"),
       caption: [夾子之 Rhino 設計稿]
     ) <clamp>
   ],
@@ -441,7 +441,7 @@
 ][
   #figure(
     block(
-      inset: (top: -10pt, bottom: -20pt, right: -30pt, left: -40pt),
+      inset: (top: -30pt, bottom: -20pt),
       clip: true,
       image("linear-trailing-system.png", height: 100%)
     ),
@@ -575,7 +575,7 @@
   #set align(center)
   #set text(fill: luma(50))
   線拉式軌道系統的重力下降問題困擾著我們。於是我們想：\
-  『既然靠重力會卡住，那不如直接用馬達和齒輪硬轉下去吧？』
+  『既然靠重力會卡住，那不如直接用馬達和齒輪硬轉下去。』
 ]
 
 #grid(
@@ -595,7 +595,7 @@
     利用馬達直接帶動齒輪，強制帶動機械臂上下移動。
 
     === 解決問題 <nooutline>
-    提供穩定的下壓力量，從根本上解決了「下不來」的問題。,
+    提供穩定的下壓力量，從根本上解決了*下不來*的問題。,
     === 衍生問題 <nooutline>
     #list(marker: ([\u{26A0}]),
       [*速度過快*：齒輪比導致移動太靈敏，難以精準對齊球體。],
@@ -623,9 +623,7 @@
   [
     // 左側放示意圖
     #figure(
-      rect(width: 100%, height: 8em, fill: teal.lighten(80%), radius: 5pt)[
-        #align(center+horizon)[線拉 +夾爪]
-      ],
+      image("finished.png"),
       caption: [混合式驅動設計]
     )
   ],
@@ -645,16 +643,20 @@
 = 目前進度
 == 目前進度
 #grid(
-  columns: (8fr, 2fr),
+  columns: (6fr, 2fr),
   column-gutter: 5pt,
   row-gutter: 5pt,
 )[
   === 打樣(100%)
-  於 11/14 完成 MVC，在 11/28 已完成最終草稿測試。
+  於 11/14 完成 MVC，11/28 完成最終草稿測試。
 ][
   #set text(0.5em)
   #figure(
-    image("linear-trailing-system.png"),
+    block(
+      inset: (top: -40pt, bottom: -30pt),
+      clip: true,
+      image("linear-trailing-system.png")
+    ),
     caption: [],
   )
 ][
@@ -663,7 +665,7 @@
 ][
   #set text(0.5em)
   #figure(
-    image("blueprint.png"),
+    image("full-blueprint.png"),
     caption: []
   )
 ][
@@ -688,7 +690,6 @@
   )[
     #alternatives[
     === 結構與傳動
-    #v(0.5em)
     #list(marker: ([\u{26A0}]),
       [
         *整體剛性不足* \
@@ -701,7 +702,6 @@
       ]
     )
 
-    #v(0.5em)
     #stickybox(fill: blue.lighten(90%), width: 100%)[
       *解決方案：軸承支撐* \
       放棄單點支撐，改為軸心兩端皆由軸承夾持，解決力矩不平衡導致的歪斜問題。
@@ -716,8 +716,8 @@
       ) <intersection>
     ]
   ][
+    #set align(horizon)
     #alternatives[
-      #set align(horizon);
       #figure(
         image(
           "rigidness.png",
@@ -728,9 +728,8 @@
       #set heading(numbering: (..nums) => "（二）")
       === 夾具機構干涉 
   
-      在測試夾取動作時，我們發現驅動齒輪在特定角度會與#pin(10)主支撐桿發生碰撞。
+      在測試夾取動作時，我們發現驅動齒輪在特定角度會與主支撐桿發生碰撞。
 
-      #v(2em)
 
       #figure(
         table(
