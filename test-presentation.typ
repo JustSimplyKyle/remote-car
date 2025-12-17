@@ -152,6 +152,48 @@
 
 #outline(title: none, indent: 1em, depth: 1)
 
+= 產品名稱
+== 產品名稱 <nooutline>
+
+#slide(repeat: 2)[
+  
+  #align(center)[
+    #text(size: 4em, weight: "bold")[
+      #alternatives[
+        C.G.M
+      ][
+        #text(fill: blue.lighten(20%))[C].#text(fill: orange.lighten(20%))[G].#text(fill: red.lighten(20%))[M].
+      ]
+    ]
+  ]
+
+  #only("2-")[
+      #show grid: set align(center)
+      #grid(
+        columns: (auto, auto, auto), // 定義三欄：字母、英文、中文
+        column-gutter: .5em,
+        row-gutter: 1.5em,
+        align: left + horizon,
+        
+        // C - Cable
+        text(weight: "bold", fill: blue.lighten(20%), size: 1.5em)[C],
+        text(weight: "bold")[Cable],
+        [線拉式升降機構],
+
+        // G - Gear
+        text(weight: "bold", fill: orange.lighten(20%), size: 1.5em)[G],
+        text(weight: "bold")[Gear],
+        [齒輪驅動夾爪],
+
+        // M - Microcontroller
+        text(weight: "bold", fill: red.lighten(20%), size: 1.5em)[M],
+        text(weight: "bold")[Microcontroller],
+        [ESP32 無線電控],
+      )
+    ]
+]
+
+
 = 參考圖片
 == 參考圖片 <nooutline>
 #grid(
@@ -337,7 +379,7 @@
 
       headerline(group(([保麗龍打樣及測試], 4)), group(([木板設計、組裝與除錯], 4)))
       headerline(
-        group(..("N14", "N21", "N26", "N28", "D03", "D05", "D12", "D19")),
+        group(..("N14", "N21", "N26", "N28", "D03", "D05", "D12", "D17")),
         // group(range(13,20).map(n => strong("10/" + str(n)))),
       )
 
@@ -612,10 +654,9 @@
 ][
   #set text(0.5em)
   #figure(
-    image("blueprint.png"),
-    caption: [#link("https://touying-typ.github.io/docs/dynamic/cover")[測試影片]]
+    image("linear-trailing-system.png"),
+    caption: [],
   )
-  #pause
 ][
   === Rhino 設計稿(100%)
   於 12/03 完成初設計，12/12 Debug 完成。
@@ -625,20 +666,138 @@
     image("blueprint.png"),
     caption: []
   )
-  #pause
 ][
   === 雷切組裝(100%)
   於 12/08 完成初步組裝，12/12 Debug 完成。
 ][
   #set text(0.5em)
   #figure(
-    image("blueprint.png"),
-    caption: [#link("https://touying-typ.github.io/docs/dynamic/cover")[測試影片]]
+    image("finished.png"),
+    caption: []
   )
 ]
 = 所遇困難
-== fuck
-arst
+== 困難與排除 <nooutline>
+
+#slide(repeat: 2)[
+在實作過程中，我們主要遭遇了*結構剛性*與*機構干涉*兩大類問題。
+  #grid(
+    columns: (1fr, 1fr),
+    gutter: 2em,
+    align: top,
+  )[
+    #alternatives[
+    === 結構與傳動
+    #v(0.5em)
+    #list(marker: ([\u{26A0}]),
+      [
+        *整體剛性不足* \
+        木板底盤在拉伸機械臂後出現微幅彎曲。\
+        $->$ #text(fill: green.darken(20%))[解決]：於兩機械臂間增加水平支撐柱。（見 @rigidness)
+      ],
+      [
+        *拉線器傳導失效* \
+        拉線軸承僅由單側固定，受力時軸心發生#highlight(fill: red.lighten(80%))[偏斜]，導致齒輪咬合不全。
+      ]
+    )
+
+    #v(0.5em)
+    #stickybox(fill: blue.lighten(90%), width: 100%)[
+      *解決方案：軸承支撐* \
+      放棄單點支撐，改為軸心兩端皆由軸承夾持，解決力矩不平衡導致的歪斜問題。
+    ]
+    ][
+      #set align(horizon);
+      #figure(
+        image(
+          "intersection.png",
+        ),
+        caption: []
+      ) <intersection>
+    ]
+  ][
+    #alternatives[
+      #set align(horizon);
+      #figure(
+        image(
+          "rigidness.png",
+        ),
+        caption: []
+      ) <rigidness>
+    ][
+      #set heading(numbering: (..nums) => "（二）")
+      === 夾具機構干涉 
+  
+      在測試夾取動作時，我們發現驅動齒輪在特定角度會與#pin(10)主支撐桿發生碰撞。
+
+      #v(2em)
+
+      #figure(
+        table(
+          columns: (auto, 1fr),
+          stroke: none,
+          inset: (y: 0.8em),
+          align: left + horizon,
+          [#circle(radius: 1.5em, fill: orange.lighten(80%))[#align(center+horizon)[暫時]]],
+          [
+            我們想到的最簡單解決方式就是直接在支撐桿上*挖洞*以讓出空間。（見 @intersection）
+          ],
+          [#circle(radius: 1.5em, fill: green.lighten(80%))[#align(center+horizon)[永久]]],
+          [
+            重新設計夾具底座，#highlight(fill: yellow.lighten(60%))[延長軸與夾子的距離]，從根本上避開干涉區域。
+          ]
+        )
+      )
+    ]
+  ]
+]
+
 = 改進空間
-== fuck
-arst
+== 未來展望 <nooutline>
+
+#grid(
+  rows: (1fr, 1fr, 1fr),
+  gutter: 1em,
+)[
+  #box(
+    fill: luma(240),
+    radius: 5pt,
+    inset: 1em,
+  )[
+    #align(center)[=== 夾具改良]
+    目前的齒輪夾設計需在改良，接觸方式「爪性」不足。
+    
+    #line(length: 100%, stroke: 1pt + gray)
+    
+    *方向*：
+    計畫重新設計夾爪，設計帶有#highlight(fill: blue.lighten(80%))[爪鉤]的爪型，以容許更大的誤差。
+  ]
+][
+  #box(
+    fill: luma(240),
+    radius: 5pt,
+    inset: 1em,
+  )[
+    #align(center)[=== 動力系統]
+    TT 馬達在負載高時電流需求大，使用乾電池消耗明顯。
+
+    #line(length: 100%, stroke: 1pt + gray)
+
+    *方向*：
+    改用 *18650 鋰電池*模組供電，提供更穩定的電壓輸出與爆發力。
+  ]
+][
+  #box(
+    fill: luma(240),
+    radius: 5pt,
+    inset: 1em,
+  )[
+    #align(center)[=== 行動能力]
+    現有輪胎為硬質塑膠，在行進時抓地力略顯不足。
+
+    #line(length: 100%, stroke: 1pt + gray)
+
+    *方向*：
+    更換*高摩擦係數*之輪胎，並增加配重以提升下壓力。
+  ]
+]
